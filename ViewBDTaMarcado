@@ -1,0 +1,34 @@
+
+create view BuscaView as
+select g.*,e.esporte,r.regiao
+from grupo g
+join esporte e on g.id_esporte = e.idesporte
+join regiao r on g.id_regiao = r.idregiao;
+
+create view BuscaUserView as
+select u.*, r.regiao 
+from usuario u
+join regiao r on u.id_regiao = r.idregiao;
+
+create view USUARIOS_DO_GRUPO_VIEW AS
+select g.idgrupo, g.nome GRUPO, g.tipo, r.regiao, e.esporte, u.idusuario, u.nome, ug.user_tipo
+from grupo g
+join usuario_grupo ug on g.idgrupo = ug.id_grupo
+join usuario u on ug.id_usuario = u.idusuario
+join regiao r on g.id_regiao = r.idregiao
+join esporte e on g.id_esporte = e.idesporte
+ORDER by g.idgrupo;
+
+create view usuario_grupo_tudoview as
+select u.*, g.idgrupo, g.nome as 'Grupo', g.tipo, g.descricao, g.criador, g.data_criacao, g.status, g.id_regiao as 'Id regiao Grupo',r.regiao, g.id_esporte, e.esporte
+from usuario u
+join usuario_grupo ug on u.idusuario = ug.id_usuario
+join grupo g on ug.id_grupo = g.idgrupo
+join esporte e on g.id_esporte = e.idesporte
+join regiao r on g.id_regiao = r.idregiao;
+
+create view lista_usuarios_esporteview as
+select ue.*, e.esporte
+from usuario_esporte ue
+join esporte e on ue.id_esporte = e.idesporte
+order by id_usuario;
